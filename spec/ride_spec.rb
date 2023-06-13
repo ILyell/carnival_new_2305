@@ -41,17 +41,52 @@ RSpec.describe Ride do
             @visitor1.add_preference(:gentle)
             @ride1.board_rider(@visitor1)
             expect(@ride1.rider_logs).to eq({@visitor1 => 1})
+        end
+
+        it 'returns false if visitor isnt tall enough' do
+            @visitor1.add_preference(:gentle)
             @visitor2.add_preference(:gentle)
-            
-            @ride1.board_rider(@visitor2)
-            
+            @visitor1.add_preference(:thrilling)
+            @visitor2.add_preference(:thrilling)
+
             @ride1.board_rider(@visitor1)
-            expect(@ride1.rider_logs).to eq({@visitor1 => 2, @visitor2 => 1})
-            
+            @ride1.board_rider(@visitor2)
+
+            expect(@ride1.rider_logs).to eq({@visitor1 => 1, @visitor2 => 1})
+            expect(@ride3.board_rider(@visitor2)).to eq(false)
+            expect(@ride3.rider_logs).to eq({})
+            @ride3.board_rider(@visitor1)
+            expect(@ride3.rider_logs).to eq({@visitor1 => 1})
+        end
+
+        it 'returns false if not visitors exciment level' do
+
+            @visitor1.add_preference(:gentle)
+            @ride1.board_rider(@visitor1)
+
+            expect(@ride1.rider_logs).to eq({@visitor1 => 1})
+            expect(@ride1.board_rider(@visitor2)).to eq(false)
+
+            @visitor2.add_preference(:gentle)
+            @ride1.board_rider(@visitor2)
+
+            expect(@ride1.rider_logs).to eq({@visitor1 => 1, @visitor2 => 1})
+        end
+
+        it 'returns false if rider dosent have enough money' do
+            @visitor1.add_preference(:gentle)
+            @visitor2.add_preference(:gentle)
+            @visitor1.add_preference(:thrilling)
+            @visitor2.add_preference(:thrilling)
+
+            @ride2.board_rider(@visitor2)
+            expect(@ride2.rider_logs).to eq({@visitor2 => 1})
+            expect(@ride2.board_rider(@visitor2)).to eq(false)
+
         end
     end
 
-    describe 'total_revenue' do
+    describe '#total_revenue' do
         it 'calculates the total revenue earned' do
             @visitor1.add_preference(:gentle)
             @visitor2.add_preference(:gentle)
@@ -67,4 +102,18 @@ RSpec.describe Ride do
         end
     end
 
+    describe '#total_rides' do
+        it 'finds total rides' do
+            @visitor1.add_preference(:gentle)
+            @visitor2.add_preference(:gentle)
+
+            expect(@ride1.total_rides).to eq(0)
+            @ride1.board_rider(@visitor1)
+            expect(@ride1.total_rides).to eq(1)
+            @ride1.board_rider(@visitor2)
+            expect(@ride1.total_rides).to eq(2)
+            @ride1.board_rider(@visitor1)
+            expect(@ride1.total_rides).to eq(3)
+        end
+    end
 end
