@@ -19,4 +19,10 @@ class Visitor
             false
         end
     end
+
+    def spend_money(money)
+        formated_wallet = @spending_money.tr("$", "").to_i
+        formated_wallet -= money
+        @spending_money = "$" + formated_wallet.to_s
+    end
 end

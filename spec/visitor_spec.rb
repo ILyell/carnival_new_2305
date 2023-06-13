@@ -37,4 +37,14 @@ RSpec.describe Visitor do
             expect(@visitor3.tall_enough?(54)).to eq(true)
         end
     end
+
+    describe '#spend_money(int)' do
+        it 'subtracts the given amount from spending_money' do
+            expect(@visitor1.spending_money).to eq('$10')
+            @visitor1.spend_money(2)
+            expect(@visitor1.spending_money).to eq('$8')
+            @visitor1.spend_money(2)
+            expect(@visitor1.spending_money).to eq('$6')
+        end
+    end
 end
