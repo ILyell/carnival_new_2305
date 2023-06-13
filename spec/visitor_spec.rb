@@ -13,20 +13,20 @@ RSpec.describe Visitor do
         expect(@visitor1).to be_a(Visitor)
         end
         it 'starts with 4 attributes' do
-            expect(visitor1.name).to eq('Bruce')
-            expect(visitor1.height).to eq(54)
-            expect(visitor1.spending_money).to eq('$10')
-            expect(visitor1.preferences).to eq([])
+            expect(@visitor1.name).to eq('Bruce')
+            expect(@visitor1.height).to eq(54)
+            expect(@visitor1.spending_money).to eq('$10')
+            expect(@visitor1.preferences).to eq([])
         end
     end
 
     describe '#add_prefernce' do
         it 'pushes a prefernce symbol into the prefernces array' do
-            expect(visitor1.preferences).to eq([])
+            expect(@visitor1.preferences).to eq([])
             @visitor1.add_preference(:gentle)
-            expect(visitor1.preferences).to eq([:gentle])
-            visitor1.add_preference(:thrilling)
-            expect(visitor1.preferences).to eq([:gentle, :thrilling])
+            expect(@visitor1.preferences).to eq([:gentle])
+            @visitor1.add_preference(:thrilling)
+            expect(@visitor1.preferences).to eq([:gentle, :thrilling])
         end
     end
 
