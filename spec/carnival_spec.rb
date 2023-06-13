@@ -28,6 +28,7 @@ RSpec.describe Carnival do
             @visitor1.add_preference(:gentle)
             @visitor2.add_preference(:gentle)
             @visitor3.add_preference(:gentle)
+            @visitor3.add_preference(:thrilling)
 
             expect(@ride1.total_revenue).to eq(0)
             @ride1.board_rider(@visitor1)
@@ -45,6 +46,9 @@ RSpec.describe Carnival do
             @ride2.board_rider(@visitor1)
             expect(@ride2.total_revenue).to eq(15)
 
+            @ride3.board_rider(@visitor3)
+            expect(@ride3.total_revenue).to eq(2)
+            
             expect(@carnival.most_profitable_ride).to eq(@ride2)
         end
     end
@@ -91,6 +95,25 @@ RSpec.describe Carnival do
             expect(@ride2.total_revenue).to eq(15)
 
             expect(@carnival.total_revenue).to eq(18)
+        end
+    end
+
+    describe '#summary' do
+        it 'returns a summary' do
+            @visitor1.add_preference(:gentle)
+            @visitor2.add_preference(:gentle)
+            @visitor3.add_preference(:gentle)
+            @ride1.board_rider(@visitor1)
+            @ride1.board_rider(@visitor1)
+            @ride1.board_rider(@visitor1)
+            @ride1.board_rider(@visitor1)
+            @ride1.board_rider(@visitor2)
+            @ride1.board_rider(@visitor2)
+            @ride1.board_rider(@visitor2)
+            @ride2.board_rider(@visitor3)
+            @ride2.board_rider(@visitor3)
+
+            expect(@carnival.summary).to eq(3)
         end
     end
 end
